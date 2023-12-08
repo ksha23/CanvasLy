@@ -59,6 +59,7 @@ async function getCalendarEvents() {
 function App() {
   const [events, setEvents] = useState([]);
   const [name, setName] = useState("");
+  const [image, setImage] = useState("");
 
   // useEffect
   useEffect(() => {
@@ -67,7 +68,9 @@ function App() {
       if (response.message) {
         setName("");
       } else {
-        setName(response);
+        console.log(response);
+        setName(response.name);
+        setImage(response.picture);
       }
 
       const events = await getCalendarEvents();
@@ -93,17 +96,21 @@ function App() {
       <h1>CanvasLy</h1>
       <h2>Welcome {name}</h2>
 
-      <button type="button" onClick={auth}>
-        Login with Google
-      </button>
+      <div className="login-logout">
+        {image && <img src={image} alt="profile" />}
 
-      {/* <button type="button" onClick={handleFetchEvents}>
+        <button className="login-btn" type="button" onClick={auth}>
+          Login with Google
+        </button>
+
+        {/* <button type="button" onClick={handleFetchEvents}>
         Get Assignments
       </button> */}
 
-      <button type="button" onClick={logout}>
-        Logout
-      </button>
+        <button className="logout-btn" type="button" onClick={logout}>
+          Logout
+        </button>
+      </div>
 
       <div>
         <h2>Canvas Assignments:</h2>

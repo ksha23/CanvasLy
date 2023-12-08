@@ -41,7 +41,12 @@ router.get("/getUserData", async function (req, res, next) {
   res.header("Referrer-Policy", "no-referrer-when-downgrade");
 
   if (req.session.isLoggedIn) {
-    res.status(200).json(req.session.name);
+    const returnData = {
+      name: req.session.name,
+      email: req.session.email,
+      picture: req.session.picture,
+    };
+    res.status(200).json(returnData);
   } else {
     res.status(401).json({ message: "Not logged in" });
   }

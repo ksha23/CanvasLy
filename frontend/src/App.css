@@ -28,6 +28,41 @@
   color: #61dafb;
 }
 
+img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 10px;
+} 
+
+.login-logout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-btn {
+  background-color: #3498db;
+  color: white;
+  margin: 5px;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  margin: 5px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
