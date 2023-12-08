@@ -34,19 +34,21 @@ function App() {
   const [events, setEvents] = useState([]);
 
   const handleFetchEvents = async () => {
-    const calendarEvents = await getCalendarEvents();
-    setEvents(calendarEvents);
+    const response = await getCalendarEvents();
+    // if the response has an error, then we need to re-authenticate
+    if (response.error) {
+      auth();
+      return;
+    }
+    setEvents(response);
   };
 
   return (
     <>
-      <h1>Google OAuth Get Calendar Stuff</h1>
-      <button type="button" onClick={() => auth()}>
-        SIGN IN
-      </button>
+      <h1>Google OAuth Calendar API</h1>
 
       <button type="button" onClick={handleFetchEvents}>
-        FETCH CALENDAR EVENTS
+        Get Calendar Events
       </button>
 
       <div>

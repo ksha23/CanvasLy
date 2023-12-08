@@ -4,6 +4,7 @@ var router = express.Router();
 const dotenv = require("dotenv");
 var { google } = require("googleapis");
 dotenv.config();
+const UserTokens = require("../mongoose");
 
 const { OAuth2Client } = require("google-auth-library");
 
@@ -47,17 +48,6 @@ const getCalendarId = async (calendar) => {
 };
 
 // get calendar events
-// async function getCalendarEvents(access_token) {
-//   const response = await fetch(
-//     `https://www.googleapis.com/calendar/v3/calendars/primary/events?access_token=${access_token}`
-//   );
-
-//   //console.log('response',response);
-//   const data = await response.json();
-//   console.log("calendar stuff", data);
-//   // console.log("calendar stuff", data);
-// }
-
 router.get("/getCalendarEvents", async function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header("Access-Control-Allow-Credentials", "true");
@@ -83,17 +73,6 @@ router.get("/getCalendarEvents", async function (req, res, next) {
   } else {
     res.status(401).json({ error: "Not logged in" });
   }
-
-  //   const response = await fetch(
-  //     `https://www.googleapis.com/calendar/v3/calendars/primary/events?access_token=${access_token}`
-  //   );
-  //   //console.log('response',response);
-  //   const data = await response.json();
-  //   // console.log("calendar stuff", data);
-  //   res.json(data);
-  // } else {
-  //   res.status(401).json({ error: "Not logged in" });
-  // }
 });
 
 // callback route for Google
@@ -111,7 +90,27 @@ router.get("/", async function (req, res, next) {
     // Make sure to set the credentials on the OAuth2 client.
     await oAuth2Client.setCredentials(response.tokens);
 
-    await getUserData(oAuth2Client.credentials.access_token);
+    // get user data
+    const profile = await getUserData(response.tokens.access_token);
+
+    // database stuff
+    try {
+      let user = await UserTokens.findOne({ googleId: profile.id });
+
+      if (!user) {
+        user = new UserTokens({
+          googleId: profile.id,
+          accessToken: response.tokens.access_token,
+          refreshToken: response.tokens.refresh_token,
+        });
+        await user.save();
+      } else {
+        user.accessToken = response.tokens.access_token;
+        await user.save();
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
     res.redirect("http://localhost:5173");
 

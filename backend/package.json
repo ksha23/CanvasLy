@@ -15,6 +15,7 @@
     "google-auth-library": "^8.8.0",
     "http-errors": "~1.6.3",
     "memorystore": "^1.6.7",
+    "mongoose": "^8.0.3",
     "morgan": "~1.9.1",
     "pug": "^3.0.2"
   }
