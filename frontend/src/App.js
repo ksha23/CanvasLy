@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import EventComponent from "./components/Event";
 
@@ -15,6 +15,17 @@ async function auth() {
 
   const data = await response.json();
   navigate(data.url);
+}
+
+// get user data
+async function getUserData() {
+  const response = await fetch("http://localhost:3000/request/getUserData", {
+    method: "get",
+    credentials: "include",
+  });
+
+  const data = await response.json();
+  return data;
 }
 
 // logout
@@ -47,27 +58,48 @@ async function getCalendarEvents() {
 
 function App() {
   const [events, setEvents] = useState([]);
+  const [name, setName] = useState("");
 
-  const handleFetchEvents = async () => {
-    const response = await getCalendarEvents();
-    if (response.error) {
-      alert("You need to login first");
-      return;
+  // useEffect
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getUserData();
+      if (response.message) {
+        setName("");
+      } else {
+        setName(response);
+      }
+
+      const events = await getCalendarEvents();
+      if (events.error) {
+        return;
+      }
+      setEvents(events);
     }
-    setEvents(response);
-  };
+    fetchData();
+  }, []);
+
+  // const handleFetchEvents = async () => {
+  //   const response = await getCalendarEvents();
+  //   if (response.error) {
+  //     alert("You need to login first");
+  //     return;
+  //   }
+  //   setEvents(response);
+  // };
 
   return (
     <>
       <h1>CanvasLy</h1>
+      <h2>Welcome {name}</h2>
 
       <button type="button" onClick={auth}>
         Login with Google
       </button>
 
-      <button type="button" onClick={handleFetchEvents}>
+      {/* <button type="button" onClick={handleFetchEvents}>
         Get Assignments
-      </button>
+      </button> */}
 
       <button type="button" onClick={logout}>
         Logout

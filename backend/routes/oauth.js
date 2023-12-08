@@ -117,6 +117,9 @@ router.get("/", async function (req, res, next) {
     // set session variables
     req.session.isLoggedIn = true;
     req.session.access_token = oAuth2Client.credentials.access_token;
+    req.session.name = profile.name;
+    req.session.email = profile.email;
+    req.session.picture = profile.picture;
     req.session.save();
   } catch (err) {
     console.error("Error logging in with OAuth2 user", err);

@@ -34,6 +34,19 @@ router.post("/", async function (req, res, next) {
   res.json({ url: authorizeUrl });
 });
 
+// get user data
+router.get("/getUserData", async function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Referrer-Policy", "no-referrer-when-downgrade");
+
+  if (req.session.isLoggedIn) {
+    res.status(200).json(req.session.name);
+  } else {
+    res.status(401).json({ message: "Not logged in" });
+  }
+});
+
 // logout
 router.get("/logout", async function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
