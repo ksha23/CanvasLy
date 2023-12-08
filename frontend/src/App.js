@@ -17,6 +17,20 @@ async function auth() {
   navigate(data.url);
 }
 
+// logout
+async function logout() {
+  const response = await fetch("http://localhost:3000/request/logout", {
+    method: "get",
+    credentials: "include",
+  });
+
+  const data = await response.json();
+  if (data.message === "Successfully logged out") {
+    window.location.reload();
+  }
+  console.log(data);
+}
+
 // get the calendar events from the backend
 async function getCalendarEvents() {
   const response = await fetch(
@@ -51,6 +65,10 @@ function App() {
 
       <button type="button" onClick={handleFetchEvents}>
         Get Calendar Events
+      </button>
+
+      <button type="button" onClick={logout}>
+        Logout
       </button>
 
       <div>

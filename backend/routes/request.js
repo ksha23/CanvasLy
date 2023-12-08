@@ -29,10 +29,19 @@ router.post("/", async function (req, res, next) {
       "https://www.googleapis.com/auth/calendar.events",
       "https://www.googleapis.com/auth/calendar.readonly",
     ],
-    prompt: "consent",
   });
 
   res.json({ url: authorizeUrl });
+});
+
+// logout
+router.get("/logout", async function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Referrer-Policy", "no-referrer-when-downgrade");
+  res.clearCookie("session-token");
+  res.clearCookie("connect.sid");
+  res.status(200).json({ message: "Successfully logged out" });
 });
 
 module.exports = router;
