@@ -7,8 +7,8 @@ var logger = require("morgan");
 var authRouter = require("./routes/oauth");
 var requestRouter = require("./routes/request");
 
-var htmlAuthRouter = require("./routes/htmlAuth");
-var htmlFileRouter = require("./routes/htmlResponse");
+// var htmlAuthRouter = require("./routes/htmlAuth");
+// var htmlFileRouter = require("./routes/htmlResponse");
 
 var session = require("express-session");
 var app = express();
