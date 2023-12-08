@@ -59,14 +59,14 @@ function App() {
 
   return (
     <>
-      <h1>Google OAuth Calendar API</h1>
+      <h1>CanvasLy</h1>
 
       <button type="button" onClick={auth}>
         Login with Google
       </button>
 
       <button type="button" onClick={handleFetchEvents}>
-        Get Calendar Events
+        Get Assignments
       </button>
 
       <button type="button" onClick={logout}>
@@ -74,7 +74,7 @@ function App() {
       </button>
 
       <div>
-        <h2>Calendar Events:</h2>
+        <h2>Canvas Assignments:</h2>
         <ul>
           {events &&
             events.length > 0 &&

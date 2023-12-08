@@ -30,7 +30,7 @@ const EventComponent = ({ name, dateTime }) => {
   return (
     <div>
       <h3>
-        {displayName}: {name.replace(/\[.*?\]/, "")}
+        {displayName} {name.replace(/\[.*?\]/, "")}
       </h3>
       <p>Due Date: {formatDate(formattedDateTime)}</p>
     </div>
