@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import EventComponent from "./components/Event";
 
 // redirect to the url
 function navigate(url) {
@@ -27,6 +28,7 @@ async function getCalendarEvents() {
   );
 
   const data = await response.json();
+  console.log(data);
   return data;
 }
 
@@ -58,8 +60,10 @@ function App() {
             events.length > 0 &&
             events.map((event, index) => (
               <li key={index}>
-                <strong>{event.summary}</strong>:{" "}
-                {event.start.date || event.start.dateTime}
+                <EventComponent
+                  name={event.summary}
+                  dateTime={event.start.dateTime || event.start.date}
+                />
               </li>
             ))}
         </ul>
