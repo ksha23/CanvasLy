@@ -42,7 +42,6 @@ async function getCalendarEvents() {
   );
 
   const data = await response.json();
-  console.log(data);
   return data;
 }
 
@@ -51,9 +50,8 @@ function App() {
 
   const handleFetchEvents = async () => {
     const response = await getCalendarEvents();
-    // if the response has an error, then we need to re-authenticate
     if (response.error) {
-      auth();
+      alert("You need to login first");
       return;
     }
     setEvents(response);
@@ -62,6 +60,10 @@ function App() {
   return (
     <>
       <h1>Google OAuth Calendar API</h1>
+
+      <button type="button" onClick={auth}>
+        Login with Google
+      </button>
 
       <button type="button" onClick={handleFetchEvents}>
         Get Calendar Events
