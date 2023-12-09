@@ -4,10 +4,13 @@ var router = express.Router();
 const dotenv = require("dotenv");
 var { google } = require("googleapis");
 dotenv.config();
-const UserTokens = require("../schemas/userToken");
+const UserTokens = require("../models/userToken");
+const calendarController = require("../dataBaseController/calendarController");
+const assignmentController = require("../dataBaseController/assignmentController");
 
 const { OAuth2Client } = require("google-auth-library");
 
+// get user google id, name, email, and picture
 async function getUserData(access_token) {
   const response = await fetch(
     `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
@@ -55,14 +58,18 @@ router.get("/getCalendarEvents", async function (req, res, next) {
 
   if (req.session.isLoggedIn) {
     const access_token = req.session.access_token;
-    // make calendar object
 
+    // ----------------- Google Calendar API --------------------
+
+    // make calendar object
     const oAuth2Client = new google.auth.OAuth2();
     oAuth2Client.setCredentials({ access_token: access_token });
     const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
 
+    // get calendar id (This should be stored in the database in the future)
     const calendarId = await getCalendarId(calendar);
 
+    // get events from calendar
     const response = await calendar.events.list({
       calendarId: calendarId,
       timeMin: new Date().toISOString(),
@@ -70,7 +77,41 @@ router.get("/getCalendarEvents", async function (req, res, next) {
       orderBy: "startTime",
       limit: 20,
     });
-    res.json(response.data.items);
+
+    // ----------------- DATABASE --------------------
+
+    // create calendar in database if it doesn't exist
+    const calendarData = {
+      googleId: req.session.googleId,
+      googleCalendarId: calendarId,
+      assignments: [],
+    };
+    await calendarController.createCalendar(req.session.googleId, calendarData);
+
+    // add all new events to database
+    const events = response.data.items;
+    const newData = events.map((event) => ({
+      name: event.summary,
+      dueDate: event.end.dateTime || event.end.date,
+    }));
+
+    // save events to database if they don't already exist (also associate them with the calendar)
+    await assignmentController.createAssignments(calendarId, newData);
+
+    // ----------------- FILTERS --------------------
+    const assignments = await assignmentController.getAssignmentsByCalendarId(
+      calendarId
+    );
+
+    // filter out completed assignments
+    const filteredAssignments = assignments.filter(
+      (assignment) => !assignment.completed
+    );
+
+    // add any other filters here!!!!!
+
+    // sends back _id, name, dueDate, completed, and reminders array
+    res.json(filteredAssignments);
   } else {
     res.status(401).json({ error: "Not logged in" });
   }
@@ -119,6 +160,7 @@ router.get("/", async function (req, res, next) {
     req.session.isLoggedIn = true;
     req.session.access_token = oAuth2Client.credentials.access_token;
     req.session.name = profile.name;
+    req.session.googleId = profile.id;
     req.session.email = profile.email;
     req.session.picture = profile.picture;
     req.session.save();

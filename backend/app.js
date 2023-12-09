@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 
 var authRouter = require("./routes/oauth");
 var requestRouter = require("./routes/request");
+// var assignmentRouter = require("./routes/assignments");
+// var calendarRouter = require("./routes/calendar");
 
 // var htmlAuthRouter = require("./routes/htmlAuth");
 // var htmlFileRouter = require("./routes/htmlResponse");
@@ -51,6 +53,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // add some routes
 app.use("/oauth", authRouter);
 app.use("/request", requestRouter);
+// app.use("/assignment", assignmentRouter);
+// app.use("/calendar", calendarRouter);
 
 // app.use("/htmlAuth", htmlAuthRouter);
 // app.use("/htmlResponse", htmlFileRouter);

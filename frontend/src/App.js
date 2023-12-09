@@ -129,10 +129,7 @@ function App() {
         {events &&
           events.length > 0 &&
           events.map((event) => (
-            <EventComponent
-              name={event.summary}
-              dateTime={event.start.dateTime || event.start.date}
-            />
+            <EventComponent name={event.name} dateTime={event.dueDate} />
           ))}
       </div>
     </>
