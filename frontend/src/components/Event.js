@@ -1,38 +1,35 @@
 import React from "react";
+import "./Event.css";
 
 const EventComponent = ({ name, dateTime }) => {
-  // Check if the provided dateTime is a string and convert it to a Date object if necessary
   const formattedDateTime = new Date(dateTime);
 
-  // Function to extract content enclosed in []
   const extractContentInBrackets = (str) => {
     const matches = str.match(/\[(.*?)\]/);
-    return matches ? matches[1] : ""; // returns the content within []
+    return matches ? matches[1] : "";
   };
 
-  // Function to format the date in a readable way
   const formatDate = (date) => {
-    // Check if the date is valid
     if (
       Object.prototype.toString.call(date) === "[object Date]" &&
       !isNaN(date)
     ) {
-      return date.toDateString(); // You can use any date formatting method you prefer
+      return date.toDateString();
     } else {
       return "Invalid Date";
     }
   };
 
-  // Extract content within [] and display before the name
   const extractedContent = extractContentInBrackets(name);
-  const displayName = extractedContent ? `${extractedContent} ` : ""; // Display content without []
+  const displayName = extractedContent ? `${extractedContent} ` : "";
 
   return (
-    <div>
-      <h3>
-        {displayName} {name.replace(/\[.*?\]/, "")}
+    <div className="event-container">
+      <h3 className="event-title">
+        {displayName}
+        <span className="event-name">{name.replace(/\[.*?\]/, "")}</span>
       </h3>
-      <p>Due Date: {formatDate(formattedDateTime)}</p>
+      <p className="due-date">Due Date: {formatDate(formattedDateTime)}</p>
     </div>
   );
 };

@@ -1,0 +1,20 @@
+.event-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.event-title {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.event-name {
+  font-weight: bold;
+}
+
+.due-date {
+  font-style: italic;
+  color: #555;
+}

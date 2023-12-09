@@ -11,7 +11,7 @@ function PopupComponent() {
   return (
     <div className="popup-wrapper">
       <button className="modal-button" onClick={togglePopup}>
-        No Assignments Showing Up?
+        No Assignments?
       </button>
       {showPopup && (
         <div className="popup">
@@ -21,8 +21,8 @@ function PopupComponent() {
             </span>
             <h2>No Assignments Showing Up?</h2>
             <p>
-              Make sure you have a google calendar with the keyword "Canvas" in
-              it's name
+              Make sure you have logged in and the account you are logged into
+              has a Google calendar with the keyword "Canvas" in it's name
             </p>
             <button className="close-button" onClick={togglePopup}>
               Close

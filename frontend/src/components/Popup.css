@@ -47,3 +47,8 @@
 .modal-button {
     margin-left:20px
 }
+
+button {
+    padding: 10px 20px;
+    border: none;
+}

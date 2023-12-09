@@ -4,7 +4,7 @@ var router = express.Router();
 const dotenv = require("dotenv");
 var { google } = require("googleapis");
 dotenv.config();
-const UserTokens = require("../mongoose");
+const UserTokens = require("../schemas/userToken");
 
 const { OAuth2Client } = require("google-auth-library");
 
@@ -68,6 +68,7 @@ router.get("/getCalendarEvents", async function (req, res, next) {
       timeMin: new Date().toISOString(),
       singleEvents: true,
       orderBy: "startTime",
+      limit: 20,
     });
     res.json(response.data.items);
   } else {

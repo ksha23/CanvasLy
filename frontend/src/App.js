@@ -94,24 +94,30 @@ function App() {
 
   return (
     <>
-      <img src={process.env.PUBLIC_URL + "/canvasly.png"} alt="logo" />
-
-      <h2>Welcome {name}</h2>
-
       <div className="login-logout">
-        {image && <img className="profile-img" src={image} alt="profile" />}
+        <img
+          className="site-name"
+          src={process.env.PUBLIC_URL + "/canvasly.png"}
+          alt="logo"
+        />
 
-        <button className="login-btn" type="button" onClick={auth}>
-          Login with Google
-        </button>
+        <div className="login-logout">
+          {image && <img className="profile-img" src={image} alt="profile" />}
 
-        {/* <button type="button" onClick={handleFetchEvents}>
+          <h2 className="profile-name">{name}</h2>
+
+          <button className="login-btn" type="button" onClick={auth}>
+            <img src={process.env.PUBLIC_URL + "/sign-in2.png"} alt="sign-in" />
+          </button>
+
+          {/* <button type="button" onClick={handleFetchEvents}>
         Get Assignments
       </button> */}
 
-        <button className="logout-btn" type="button" onClick={logout}>
-          Logout
-        </button>
+          <button className="logout-btn" type="button" onClick={logout}>
+            <strong>Log Out</strong>
+          </button>
+        </div>
       </div>
 
       <div>
@@ -120,18 +126,14 @@ function App() {
           <PopupComponent />
         </div>
 
-        <ul>
-          {events &&
-            events.length > 0 &&
-            events.map((event, index) => (
-              <li key={index}>
-                <EventComponent
-                  name={event.summary}
-                  dateTime={event.start.dateTime || event.start.date}
-                />
-              </li>
-            ))}
-        </ul>
+        {events &&
+          events.length > 0 &&
+          events.map((event) => (
+            <EventComponent
+              name={event.summary}
+              dateTime={event.start.dateTime || event.start.date}
+            />
+          ))}
       </div>
     </>
   );
