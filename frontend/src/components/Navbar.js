@@ -1,6 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Ensure you import useHistory from react-router-dom
 
 function navigate(url) {
   window.location.href = url;
@@ -41,20 +42,24 @@ const Navbar = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [isLogged, setIsLogged] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       const response = await getUserData();
       if (response.message) {
         setName("");
+        setIsLogged(false);
+        navigate("/");
       } else {
         setName(response.name);
         setImage(response.picture);
         setIsLogged(true);
+        navigate("/assignments");
       }
     }
     fetchData();
-  }, []);
+  }, [navigate]);
 
   return (
     <header className="navbar">

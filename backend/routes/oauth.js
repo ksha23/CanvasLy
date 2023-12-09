@@ -118,7 +118,14 @@ router.get("/getCalendarEvents", async function (req, res, next) {
     const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
 
     // get calendar id (This should be stored in the database in the future)
-    const calendarId = await getCalendarId(calendar);
+    var calendarId = "";
+    try {
+      calendarId = await getCalendarId(calendar);
+    } catch (err) {
+      console.log("Error getting calendar id");
+      console.error(err);
+      return res.status(500).json({ error: err });
+    }
 
     // get events from calendar
     const response = await calendar.events.list({

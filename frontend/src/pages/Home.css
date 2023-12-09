@@ -1,0 +1,44 @@
+/* Home.css */
+
+/* Styles for main content */
+.homepage {
+    font-family: Arial, sans-serif;
+    margin-top: 60px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .main-content {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Styles for sections */
+  h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .why-canvasly,
+  .how-it-works {
+    margin-bottom: 30px;
+  }
+  
+  h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  ul,
+  ol {
+    text-align: left;
+    margin-left: 40px;
+  }

@@ -1,7 +1,12 @@
 .app-container {
+  margin: 40px;
   padding-top: 60px;
   font-family: Arial, sans-serif;
-  margin: 40px;
   /* Add any other global styles */
 }
 
+.homepage {
+  margin: 40px;
+  margin-top:120px;
+
+}
