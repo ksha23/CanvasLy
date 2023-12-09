@@ -93,11 +93,12 @@ function App() {
 
   return (
     <>
-      <h1>CanvasLy</h1>
+      <img src={process.env.PUBLIC_URL + "/canvasly.png"} alt="logo" />
+
       <h2>Welcome {name}</h2>
 
       <div className="login-logout">
-        {image && <img src={image} alt="profile" />}
+        {image && <img className="profile-img" src={image} alt="profile" />}
 
         <button className="login-btn" type="button" onClick={auth}>
           Login with Google
