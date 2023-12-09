@@ -1,0 +1,80 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .left-section {
+    display: flex;
+    align-items: center;
+    margin-left: 10px
+  }
+  
+  .right-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 200px;
+    height: auto;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .google-image {
+    width: 200px;
+    height: 44px;
+  }
+  
+  .profile-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+  }
+  
+  .buttons button {
+    margin: 0 30px;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .login-btn {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold
+  }
+
+  .logout-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+
+
+  

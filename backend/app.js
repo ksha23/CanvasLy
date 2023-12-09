@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 var authRouter = require("./routes/oauth");
 var requestRouter = require("./routes/request");
-// var assignmentRouter = require("./routes/assignments");
+var assignmentRouter = require("./routes/assignments");
 // var calendarRouter = require("./routes/calendar");
 
 // var htmlAuthRouter = require("./routes/htmlAuth");
@@ -25,7 +25,7 @@ app.options("*", function (req, res, next) {
     "content-type",
     "credentials",
   ]);
-  res.header("Access-Control-Allow-Methods", "GET,POST");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT");
   res.status(200);
   next();
 });
@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // add some routes
 app.use("/oauth", authRouter);
 app.use("/request", requestRouter);
-// app.use("/assignment", assignmentRouter);
+app.use("/", assignmentRouter);
 // app.use("/calendar", calendarRouter);
 
 // app.use("/htmlAuth", htmlAuthRouter);

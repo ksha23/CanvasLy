@@ -36,39 +36,6 @@ const createAssignments = async (calendarId, data) => {
   }
 };
 
-// Create a new assignment and associate it with a calendar
-const createAssignment = async (req, res) => {
-  try {
-    const { calendarId } = req.body;
-
-    const newAssignment = await Assignment.create(req.body);
-
-    if (calendarId) {
-      const calendar = await Calendar.findById(calendarId);
-      if (!calendar) {
-        return res.status(404).json({ message: "Calendar not found" });
-      }
-
-      calendar.assignments.push(newAssignment._id);
-      await calendar.save();
-    }
-
-    res.status(201).json(newAssignment);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Get all assignments
-const getAllAssignments = async (req, res) => {
-  try {
-    const assignments = await Assignment.find();
-    res.status(200).json(assignments);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
 // Get assignments belonging to a specific calendar
 const getAssignmentsByCalendarId = async (calendarId) => {
   try {
@@ -85,48 +52,24 @@ const getAssignmentsByCalendarId = async (calendarId) => {
 };
 
 // Update an assignment by ID
-const updateAssignmentById = async (req, res) => {
-  const { id } = req.params;
+const completeAssignmentById = async (id) => {
   try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+    const updatedAssignment = await Assignment.findByIdAndUpdate(
+      id,
+      { completed: true },
+      { new: true }
+    );
     if (!updatedAssignment) {
-      return res.status(404).json({ message: "Assignment not found" });
+      console.error("Assignment not found");
     }
-    res.status(200).json(updatedAssignment);
+    return updatedAssignment;
   } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Delete an assignment by ID and remove it from associated calendars
-const deleteAssignmentById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deletedAssignment = await Assignment.findByIdAndDelete(id);
-    if (!deletedAssignment) {
-      return res.status(404).json({ message: "Assignment not found" });
-    }
-
-    // Remove assignment from associated calendars
-    const calendars = await Calendar.find({ assignments: id });
-    for (const calendar of calendars) {
-      calendar.assignments.pull(id);
-      await calendar.save();
-    }
-
-    res.status(200).json({ message: "Assignment deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
   }
 };
 
 module.exports = {
   createAssignments,
-  createAssignment,
-  getAllAssignments,
   getAssignmentsByCalendarId,
-  updateAssignmentById,
-  deleteAssignmentById,
+  completeAssignmentById,
 };

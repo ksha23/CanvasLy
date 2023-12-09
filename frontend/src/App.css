@@ -1,47 +1,7 @@
-.profile-img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 50%;
-} 
-
-.site-name {
-  width: 280px;
-  height: 100px;
-  object-fit: cover;
-} 
-
-.login-logout {
-  margin-left: 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.app-container {
+  padding-top: 60px;
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  /* Add any other global styles */
 }
 
-.profile-name {
-  margin-left: 15px;
-}
-
-button {
-  border-radius: 5px;
-}
-button:hover {
-  cursor: pointer;
-}
-
-.login-btn {
-  background-color: white;
-  border: none;
-}
-
-.login-btn img {
-  width: 200px;
-  height: 45px;
-  object-fit: cover;
-}
-
-.logout-btn {
-  border: none;
-  background-color: #e74c3c;
-  color: white;
-}

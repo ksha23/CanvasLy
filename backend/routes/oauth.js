@@ -21,25 +21,37 @@ function customSort(a, b) {
   const dateB = new Date(b.dueDate);
 
   const typeValues = {
-    Assignment: 1,
-    Exam: 2,
+    Other: 1,
+    Assignment: 2,
     Quiz: 3,
     Project: 4,
-    Other: 5,
+    Exam: 5,
   };
 
   const daysDifferenceA = Math.abs((dateA - currentDate) / (1000 * 3600 * 24));
   const daysDifferenceB = Math.abs((dateB - currentDate) / (1000 * 3600 * 24));
 
-  const scoreA =
-    dateWeight * (1 / (1 + daysDifferenceA)) +
-    typeWeight * typeValues[a.type] +
-    difficultyWeight * a.difficulty;
+  // Exponential increase factor for time weight
+  // function is 1 / (2^(0.5 * daysDifference) - 1)
+  const exponentialFactorA = 1 / (Math.pow(2, 0.5 * daysDifferenceA) - 1);
+  const exponentialFactorB = 1 / (Math.pow(2, 0.5 * daysDifferenceB) - 1);
 
+  const maxTypeValue = 5;
+  const maxDifficultyValue = 10;
+
+  const normalizedTypeValueA = typeValues[a.type] / maxTypeValue;
+  const normalizedDifficultyValueA = a.difficulty / maxDifficultyValue;
+  const scoreA =
+    dateWeight * exponentialFactorA +
+    typeWeight * normalizedTypeValueA +
+    difficultyWeight * normalizedDifficultyValueA;
+
+  const normalizedTypeValueB = typeValues[b.type] / maxTypeValue;
+  const normalizedDifficultyValueB = b.difficulty / maxDifficultyValue;
   const scoreB =
-    dateWeight * (1 / (1 + daysDifferenceB)) +
-    typeWeight * typeValues[b.type] +
-    difficultyWeight * b.difficulty;
+    dateWeight * exponentialFactorB +
+    typeWeight * normalizedTypeValueB +
+    difficultyWeight * normalizedDifficultyValueB;
 
   if (scoreA < scoreB) {
     return 1;

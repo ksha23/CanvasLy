@@ -1,7 +1,19 @@
 import React from "react";
 import "./Event.css";
 
-const EventComponent = ({ name, dateTime }) => {
+const completeAssignment = async (id) => {
+  const response = await fetch(`http://localhost:3000/assignments/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: id }),
+  });
+  const data = await response.json();
+  return data;
+};
+
+const EventComponent = ({ id, name, dateTime, difficulty, type }) => {
   const formattedDateTime = new Date(dateTime);
 
   const extractContentInBrackets = (str) => {
@@ -29,7 +41,13 @@ const EventComponent = ({ name, dateTime }) => {
         {displayName}
         <span className="event-name">{name.replace(/\[.*?\]/, "")}</span>
       </h3>
-      <p className="due-date">Due Date: {formatDate(formattedDateTime)}</p>
+      <p className="due-date">
+        <strong>Due Date: </strong>
+        {formatDate(formattedDateTime)} | <strong>Difficulty: </strong>
+        {difficulty} | <strong>Type: </strong>
+        {type}
+      </p>
+      <button onClick={() => completeAssignment(id)}>Complete</button>
     </div>
   );
 };
