@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import EventComponent from "./components/Event";
+import PopupComponent from "./components/Popup";
 
 // redirect to the url
 function navigate(url) {
@@ -114,7 +115,11 @@ function App() {
       </div>
 
       <div>
-        <h2>Canvas Assignments:</h2>
+        <div className="login-logout">
+          <h2>Canvas Assignments:</h2>
+          <PopupComponent />
+        </div>
+
         <ul>
           {events &&
             events.length > 0 &&
