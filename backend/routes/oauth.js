@@ -10,6 +10,45 @@ const assignmentController = require("../dataBaseController/assignmentController
 
 const { OAuth2Client } = require("google-auth-library");
 
+// OUR CUSTOM SORT FUNCTION!
+function customSort(a, b) {
+  const dateWeight = 0.5;
+  const typeWeight = 0.3;
+  const difficultyWeight = 0.2;
+
+  const currentDate = new Date();
+  const dateA = new Date(a.dueDate);
+  const dateB = new Date(b.dueDate);
+
+  const typeValues = {
+    Assignment: 1,
+    Exam: 2,
+    Quiz: 3,
+    Project: 4,
+    Other: 5,
+  };
+
+  const daysDifferenceA = Math.abs((dateA - currentDate) / (1000 * 3600 * 24));
+  const daysDifferenceB = Math.abs((dateB - currentDate) / (1000 * 3600 * 24));
+
+  const scoreA =
+    dateWeight * (1 / (1 + daysDifferenceA)) +
+    typeWeight * typeValues[a.type] +
+    difficultyWeight * a.difficulty;
+
+  const scoreB =
+    dateWeight * (1 / (1 + daysDifferenceB)) +
+    typeWeight * typeValues[b.type] +
+    difficultyWeight * b.difficulty;
+
+  if (scoreA < scoreB) {
+    return 1;
+  } else if (scoreA > scoreB) {
+    return -1;
+  }
+  return 0;
+}
+
 // get user google id, name, email, and picture
 async function getUserData(access_token) {
   const response = await fetch(
@@ -109,6 +148,9 @@ router.get("/getCalendarEvents", async function (req, res, next) {
     );
 
     // add any other filters here!!!!!
+
+    // ----------------- SORTING --------------------
+    filteredAssignments.sort(customSort);
 
     // sends back _id, name, dueDate, completed, and reminders array
     res.json(filteredAssignments);

@@ -12,7 +12,10 @@ const assignmentSchema = new mongoose.Schema({
     required: true,
   },
   difficulty: {
-    type: String,
+    type: Number,
+    min: 1,
+    max: 10,
+    default: 1,
   },
   class: {
     type: String,
@@ -29,6 +32,8 @@ const assignmentSchema = new mongoose.Schema({
   },
   type: {
     type: String,
+    enum: ["Assignment", "Exam", "Quiz", "Project", "Other"],
+    default: "Other",
   },
   priority: {
     type: String,
