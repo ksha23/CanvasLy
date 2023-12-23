@@ -1,4 +1,4 @@
-# CanvasLy
+# CanvasLy (OUTDATED! SEE https://github.com/ksha23/CanvasLy2.0)
 
 ## Setup Locally
 
